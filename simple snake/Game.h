@@ -54,8 +54,9 @@ private:
 	sf::RectangleShape m_snakeBody; // square for sanke
 	sf::RectangleShape m_snakeTail;// square for snake tail
 	Direction m_direction{ Direction::Right };// diresction snake is heading
-	int m_snakeLenght{13};
+	int m_snakeLenght{15};
 	sf::Vector2f m_tail[MAX_LENGHT];
+	Direction m_tailDirections[MAX_LENGHT];
 
 
 };

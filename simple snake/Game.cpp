@@ -136,21 +136,39 @@ void Game::move()
 	float speed = 2.0f;
 	switch (m_direction)
 	{
-	case Direction::Up:
+	case Direction::Up:		
 		m_snakeBody.move(0.0f, -speed);
 		break;
-	case Direction::Right:
+	case Direction::Right:           		
 		m_snakeBody.move(speed, 0.0f);
 		break;
-	case Direction::Down:
+	case Direction::Down:		
 		m_snakeBody.move(0.0f, speed);
 		break;
-	case Direction::Left:
+	case Direction::Left:		
 		m_snakeBody.move(-speed, 0.0f);
 		break;
 	default:
 		break;
 	}
+	switch (m_tailDirections[m_snakeLenght - 1])
+	{
+	case Direction::Up:
+		m_tail[m_snakeLenght - 1].y -= speed;
+		break;
+	case Direction::Down:
+		m_tail[m_snakeLenght - 1].y += speed;
+		break;
+	case Direction::Right:
+		m_tail[m_snakeLenght - 1].x += speed;
+		break;
+	case Direction::Left:
+		m_tail[m_snakeLenght - 1].x -= speed;
+		break;
+	default:
+		break;
+	}
+
 	if (static_cast<int>(m_snakeBody.getPosition().x) % 32 == 0 &&
 		static_cast<int>(m_snakeBody.getPosition().y) % 32 == 0)
 	{
@@ -160,6 +178,7 @@ void Game::move()
 
 void Game::checkDirection()
 {
+
 
 	if (m_snakeBody.getPosition().x > 733 && m_snakeBody.getPosition().y < 65)
 	{
@@ -177,11 +196,14 @@ void Game::checkDirection()
 	{
 		m_direction = Direction::Right;
 	}
+	
 	for (int i = m_snakeLenght; i > 0; i--)
 	{
 		m_tail[i] = m_tail[i - 1];
+		m_tailDirections[i] = m_tailDirections[i - 1];
 	}
 	m_tail[0] = m_snakeBody.getPosition();
+	m_tailDirections[0] = m_direction;
 }
 
 /// <summary>
@@ -222,5 +244,5 @@ void Game::setupSprite()
 
 	m_snakeTail.setFillColor(sf::Color::Blue);
 	m_snakeTail.setSize(sf::Vector2f{ 32.0f,32.0f });
-	
+	m_snakeTail.setPosition(-64.0f, -64.0f);
 }
