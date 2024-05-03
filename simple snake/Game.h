@@ -3,13 +3,15 @@
 /// Snake
 /// </summary>
 #ifndef GAME_HPP
-#define GAME_HPP
+#define GAME_HPP 
 /// <summary>
 /// include guards used so we don't process this file twice
 /// same as #pragma once
 /// Don't forget the endif at the bottom
 /// </summary>
 #include <SFML/Graphics.hpp>
+
+const int MAX_LENGHT = 20;
 
 enum class Direction
 {
@@ -31,7 +33,8 @@ public:
 	void run();
 
 private:
-
+	
+	
 	void processEvents();
 	void processKeys(sf::Event t_event);
 	void update(sf::Time t_deltaTime);
@@ -49,7 +52,11 @@ private:
 	sf::Sprite m_logoSprite; // sprite used for sfml logo
 	bool m_exitGame; // control exiting game
 	sf::RectangleShape m_snakeBody; // square for sanke
+	sf::RectangleShape m_snakeTail;// square for snake tail
 	Direction m_direction{ Direction::Right };// diresction snake is heading
+	int m_snakeLenght{13};
+	sf::Vector2f m_tail[MAX_LENGHT];
+
 
 };
 

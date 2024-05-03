@@ -121,6 +121,12 @@ void Game::render()
 {
 	m_window.clear(sf::Color::White);
 	m_window.draw(m_welcomeMessage);
+	
+	for (int i = 0; i < m_snakeLenght; i++)
+	{
+		m_snakeTail.setPosition(m_tail[i]);
+		m_window.draw(m_snakeTail);
+	}
 	m_window.draw(m_snakeBody);
 	m_window.display();
 }
@@ -154,22 +160,28 @@ void Game::move()
 
 void Game::checkDirection()
 {
-	if (m_snakeBody.getPosition().x > 733)
+
+	if (m_snakeBody.getPosition().x > 733 && m_snakeBody.getPosition().y < 65)
 	{
 		m_direction = Direction::Down;
 	}
-	if (m_snakeBody.getPosition().y > 533)
-	{
+	if (m_snakeBody.getPosition().y > 533 && m_snakeBody.getPosition().x > 733)
+	{		
 		m_direction = Direction::Left;
 	}
-	if (m_snakeBody.getPosition().x < 65)
+	if (m_snakeBody.getPosition().x < 65 && m_snakeBody.getPosition().y > 533)
 	{
 		m_direction = Direction::Up;
 	}
-	if (m_snakeBody.getPosition().y < 65)
+	if (m_snakeBody.getPosition().y < 65 && m_snakeBody.getPosition().x < 65)
 	{
 		m_direction = Direction::Right;
 	}
+	for (int i = m_snakeLenght; i > 0; i--)
+	{
+		m_tail[i] = m_tail[i - 1];
+	}
+	m_tail[0] = m_snakeBody.getPosition();
 }
 
 /// <summary>
@@ -206,5 +218,9 @@ void Game::setupSprite()
 
 	m_snakeBody.setFillColor(sf::Color::Green);
 	m_snakeBody.setSize(sf::Vector2f{ 32.0f,32.0f });
-	m_snakeBody.setPosition(128.0f, 128.0f);
+	m_snakeBody.setPosition(64.0f, 64.0f);
+
+	m_snakeTail.setFillColor(sf::Color::Blue);
+	m_snakeTail.setSize(sf::Vector2f{ 32.0f,32.0f });
+	
 }
