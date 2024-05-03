@@ -111,6 +111,7 @@ void Game::update(sf::Time t_deltaTime)
 	{
 		m_window.close();
 	}
+	move();
 }
 
 /// <summary>
@@ -120,8 +121,55 @@ void Game::render()
 {
 	m_window.clear(sf::Color::White);
 	m_window.draw(m_welcomeMessage);
-	m_window.draw(m_logoSprite);
+	m_window.draw(m_snakeBody);
 	m_window.display();
+}
+
+void Game::move()
+{
+	float speed = 2.0f;
+	switch (m_direction)
+	{
+	case Direction::Up:
+		m_snakeBody.move(0.0f, -speed);
+		break;
+	case Direction::Right:
+		m_snakeBody.move(speed, 0.0f);
+		break;
+	case Direction::Down:
+		m_snakeBody.move(0.0f, speed);
+		break;
+	case Direction::Left:
+		m_snakeBody.move(-speed, 0.0f);
+		break;
+	default:
+		break;
+	}
+	if (static_cast<int>(m_snakeBody.getPosition().x) % 32 == 0 &&
+		static_cast<int>(m_snakeBody.getPosition().y) % 32 == 0)
+	{
+		checkDirection();
+	}
+}
+
+void Game::checkDirection()
+{
+	if (m_snakeBody.getPosition().x > 733)
+	{
+		m_direction = Direction::Down;
+	}
+	if (m_snakeBody.getPosition().y > 533)
+	{
+		m_direction = Direction::Left;
+	}
+	if (m_snakeBody.getPosition().x < 65)
+	{
+		m_direction = Direction::Up;
+	}
+	if (m_snakeBody.getPosition().y < 65)
+	{
+		m_direction = Direction::Right;
+	}
 }
 
 /// <summary>
@@ -134,13 +182,12 @@ void Game::setupFontAndText()
 		std::cout << "problem loading arial black font" << std::endl;
 	}
 	m_welcomeMessage.setFont(m_ArialBlackfont);
-	m_welcomeMessage.setString("SFML Game");
-	m_welcomeMessage.setStyle(sf::Text::Underlined | sf::Text::Italic | sf::Text::Bold);
+	m_welcomeMessage.setString("Snake");
 	m_welcomeMessage.setPosition(40.0f, 40.0f);
-	m_welcomeMessage.setCharacterSize(80U);
+	m_welcomeMessage.setCharacterSize(30U);
 	m_welcomeMessage.setOutlineColor(sf::Color::Red);
 	m_welcomeMessage.setFillColor(sf::Color::Black);
-	m_welcomeMessage.setOutlineThickness(3.0f);
+	m_welcomeMessage.setOutlineThickness(1.0f);
 
 }
 
@@ -156,4 +203,8 @@ void Game::setupSprite()
 	}
 	m_logoSprite.setTexture(m_logoTexture);
 	m_logoSprite.setPosition(300.0f, 180.0f);
+
+	m_snakeBody.setFillColor(sf::Color::Green);
+	m_snakeBody.setSize(sf::Vector2f{ 32.0f,32.0f });
+	m_snakeBody.setPosition(128.0f, 128.0f);
 }

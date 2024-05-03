@@ -1,6 +1,6 @@
 /// <summary>
 /// author Pete Lowe May 2022
-/// you need to change the above line or lose marks
+/// Snake
 /// </summary>
 #ifndef GAME_HPP
 #define GAME_HPP
@@ -10,6 +10,15 @@
 /// Don't forget the endif at the bottom
 /// </summary>
 #include <SFML/Graphics.hpp>
+
+enum class Direction
+{
+	Up,
+	Right,
+	Down,
+	Left
+};
+
 
 class Game
 {
@@ -27,6 +36,8 @@ private:
 	void processKeys(sf::Event t_event);
 	void update(sf::Time t_deltaTime);
 	void render();
+	void move();
+	void checkDirection();
 	
 	void setupFontAndText();
 	void setupSprite();
@@ -37,8 +48,11 @@ private:
 	sf::Texture m_logoTexture; // texture used for sfml logo
 	sf::Sprite m_logoSprite; // sprite used for sfml logo
 	bool m_exitGame; // control exiting game
+	sf::RectangleShape m_snakeBody; // square for sanke
+	Direction m_direction{ Direction::Right };// diresction snake is heading
 
 };
 
 #endif // !GAME_HPP
+
 
